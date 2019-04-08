@@ -12,7 +12,10 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
   devServer: {
-    contentBase: path.join(__dirname,'src')
+    contentBase: path.join(__dirname,'src'),
+    port: 9000,
+    hot: true,
+    historyApiFallback: true
   },
   module: {
     rules: [
@@ -25,6 +28,10 @@ module.exports = {
             presets: ["@babel/preset-env", "@babel/preset-react"]
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
