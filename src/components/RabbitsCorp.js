@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import AuthService from '../modules/ApiService';
+import ApiService from '../modules/ApiService';
 import AuthorizedRoute from './AuthorizedRoute';
 import Navigation from './Navigation';
 import RabbitCreate from './RabbitCreate';
@@ -18,12 +18,12 @@ class RabbitsCorp extends Component {
 
   logoutHandle() {
     console.log(this);
-    AuthService.logout();
+    ApiService.logout();
     this.props.history.push('/login');
   }
 
   render() {
-    const isLoggedIn = AuthService.isLoggedIn();
+    const isLoggedIn = ApiService.isLoggedIn();
 
     if(!isLoggedIn) {
       return <Redirect to="/login"/>;

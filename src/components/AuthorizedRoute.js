@@ -1,10 +1,10 @@
 import React from 'react';
-import AuthService from '../modules/ApiService';
+import ApiService from '../modules/ApiService';
 import { Redirect, Route } from 'react-router-dom';
 
 const AuthorizedRoute = ({ component: Component, ...rest }) => {
 
-  const isLoggedIn = AuthService.isLoggedIn();
+  const isLoggedIn = ApiService.isLoggedIn();
   console.log(isLoggedIn);
   return (
     <Route

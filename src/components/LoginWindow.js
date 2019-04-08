@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import AuthService from '../modules/ApiService';
+import ApiService from '../modules/ApiService';
 import { Redirect } from 'react-router-dom';
 
 class LoginWindow extends Component {
@@ -9,13 +9,14 @@ class LoginWindow extends Component {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
+      username: 'omar1',
+      password: 'lobster1',
       isLoading: false
     }
 
     this.inputHandler = this.inputHandler.bind(this);
     this.logInUser = this.logInUser.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
   }
 
   inputHandler(event) {
@@ -28,21 +29,26 @@ class LoginWindow extends Component {
     });
   }
 
+  onSuccess(params) {
+    console.log(params);
+    this.setState({isLoading: false});
+  }
+
   logInUser() {
     this.setState({isLoading: true});
 
     const { username, password } = this.state;
-    AuthService.login({ username, password });
+    ApiService.login({ username, password }, this.onSuccess);
   }
 
   render() {
-    const isLoggedIn = AuthService.isLoggedIn(),
+    const isLoggedIn = ApiService.isLoggedIn(),
       { username, password } = this.state;
 
     if(isLoggedIn) {
       return <Redirect to={{ pathname: '/list', state: { from: this.props.location } }} />;
     }
-    
+
     return (
       <div className="login-window" >
         <form>
