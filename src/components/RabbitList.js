@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Header from './Header';
 import ApiService from '../modules/ApiService';
 import CreateButton from './CreateButton';
-import { Link } from 'react-router-dom';
+import Rabbit from './Rabbit';
+
 
 class RabbitList extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class RabbitList extends Component {
     }
 
     this.getRabbits = this.getRabbits.bind(this);
+    this.deleteRabbit = this.deleteRabbit.bind(this);
     this.onLoadSuccess = this.onLoadSuccess.bind(this);
+    this.onDeleteSuccess = this.onDeleteSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -28,19 +31,27 @@ class RabbitList extends Component {
     console.log(this.state.rabbits);
   }
 
+  onDeleteSuccess(params) {
+    console.log(params);
+    this.getRabbits();
+  }
+
   getRabbits() {
     ApiService.getList(this.onLoadSuccess);
   }
 
+  deleteRabbit(id) {
+    ApiService.remove(id, this.onDeleteSuccess);
+  }
+
   createRow(value, num) {
     return (
-      <tr key={value.id}>
-        <td className="table-cell">{num}</td>
-        <td className="table-cell">
-          <Link to={`/edit/${value.id}`}>{value.name}</Link>
-        </td>
-        <td className="table-cell">{value.weight}</td>
-      </tr>
+      <Rabbit
+        key={value.id}
+        number={num}
+        rabbit={value}
+        onDelete={this.deleteRabbit}
+      />
     );
   }
 

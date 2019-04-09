@@ -189,26 +189,83 @@ const ApiService = (function(){
       .then(
         response => {
           console.log(response);
-          // if(response.status == 200) {
-          //   return response.json();
-          // }
-          // else {
-          //   throw { status: response.status, statusText: response.statusText };
-          // }
+          if(response.status == 200 || response.status == 201) {
+            return response;
+          }
+          else {
+            throw { status: response.status, statusText: response.statusText };
+          }
         },
         error => {throw error.statusText}
       )
-      .then(response => { console.log(response); callback(response);})
+      .then(response => callback(response.statusText))
       .catch(error => _errorHandler(error));
-    callback('wow');
   };
 
-  function edit() {
-    console.log('create');
+  function edit({ id, name, weight}, callback) {
+    console.log('edit');
+    if(!_checkUser()) {
+      return _deleteCookie(TOKEN_NAME);
+    }
+
+    const url = `${URL}/rabbit/${id}`,
+      method = 'POST',
+      headers = {
+        'Authorization': _getCookie(TOKEN_NAME),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body =  `rabbit[name]=${name}&rabbit[weight]=${weight}`;
+
+    console.log(_getCookie(TOKEN_NAME));
+    console.log(url, { method, headers, body });
+    _apiFetch(url, { method, headers, body })
+      .then(
+        response => {
+          console.log(response);
+          if(response.status == 200 || response.status == 201) {
+            return response;
+          }
+          else {
+            throw { status: response.status, statusText: response.statusText };
+          }
+        },
+        error => {throw error.statusText}
+      )
+      .then(response => callback(response.statusText))
+      .catch(error => _errorHandler(error));
   };
 
-  function remove() {
+  function remove({ id, name, weight}, callback) {
     console.log('remove');
+    if(!_checkUser()) {
+      return _deleteCookie(TOKEN_NAME);
+    }
+
+    const url = `${URL}/rabbit/${id}`,
+      method = 'DELETE',
+      headers = {
+        'Authorization': _getCookie(TOKEN_NAME),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body =  `rabbit[name]=${name}&rabbit[weight]=${weight}`;
+
+    console.log(_getCookie(TOKEN_NAME));
+    console.log(url, { method, headers, body });
+    _apiFetch(url, { method, headers, body })
+      .then(
+        response => {
+          console.log(response);
+          if(response.status == 200 || response.status == 201) {
+            return response;
+          }
+          else {
+            throw { status: response.status, statusText: response.statusText };
+          }
+        },
+        error => {throw error.statusText}
+      )
+      .then(response => callback(response.statusText))
+      .catch(error => _errorHandler(error));
   };
 
   function login({ username, password }, callback) {
@@ -220,7 +277,6 @@ const ApiService = (function(){
       },
       body = JSON.stringify({ username, password });
 
-    // AUTH = true;
     _apiFetch(url, { method, headers, body})
       .then(
         response => {

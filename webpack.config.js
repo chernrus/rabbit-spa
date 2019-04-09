@@ -4,8 +4,9 @@ const path = require('path');
 module.exports = {
   entry: path.join(__dirname,'src','index.js'),
   output: {
-    path: path.join(__dirname,'build'),
-    filename: 'index.bundle.js'
+    path: path.join(__dirname,'build', 'dist'),
+    filename: 'index.bundle.js',
+    publicPath: '/'
   },
   mode: process.env.NODE_ENV || 'development',
   resolve: {

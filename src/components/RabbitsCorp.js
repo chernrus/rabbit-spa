@@ -37,6 +37,8 @@ class RabbitsCorp extends Component {
             className="w3-bar-item w3-button">Create rabbit</NavLink>
           <NavLink to="/list"
             className="w3-bar-item w3-button">Rabbits list</NavLink>
+          <NavLink to="/edit/1"
+            className="w3-bar-item w3-button">Rabbits edit</NavLink>
           <button
             className="w3-bar-item w3-button"
             onClick={this.logoutHandle}>Logout</button>
@@ -44,9 +46,9 @@ class RabbitsCorp extends Component {
         <div className="main-content" style={{marginLeft:'200px'}}>
           <Switch>
             <Route path="/create" component={RabbitCreate} />
-            <Route path="/edit/:id" component={RabbitEdit} />
             <Route path="/list" component={RabbitList} />
-
+            <Route path="/edit/:id" component={RabbitEdit} />
+            <Route path="/aaa/:id" component={RabbitEdit} />
             <Route render={ () => <h1>404 Error</h1> } />
           </Switch>
         </div>
