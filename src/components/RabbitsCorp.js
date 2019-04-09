@@ -44,7 +44,7 @@ class RabbitsCorp extends Component {
         <div className="main-content" style={{marginLeft:'200px'}}>
           <Switch>
             <Route path="/create" component={RabbitCreate} />
-            <Route path="/edit" component={RabbitEdit} />
+            <Route path="/edit/:id" component={RabbitEdit} />
             <Route path="/list" component={RabbitList} />
 
             <Route render={ () => <h1>404 Error</h1> } />
