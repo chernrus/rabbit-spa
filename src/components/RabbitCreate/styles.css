@@ -1,0 +1,40 @@
+.rabbit-create {
+
+
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 400px;
+}
+
+.create-form__input {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+  border-bottom: 1px solid #000;
+}
+
+.create-form__input:active,
+.create-form__input:hover,
+.create-form__input:focus {
+  border: none;
+  outline-style: none;
+  border-bottom: 1px solid #008080;
+}
+
+.create-form__buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.create-form__btn {
+  width: 150px;
+}

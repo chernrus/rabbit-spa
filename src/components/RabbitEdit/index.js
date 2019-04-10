@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import Header from './Header';
-import ApiService from '../modules/ApiService';
+import ApiService from '../../modules/ApiService';
+import Header from '../Header';
+import './styles.css';
 
 class RabbitEdit extends Component {
   constructor(props) {
     super(props);
-
-    // const {
-    //   name,
-    //   weight
-    // } = props.location.state.rabbit;
 
     this.state = {
       name: '',
@@ -102,31 +98,36 @@ class RabbitEdit extends Component {
     return (
       <div className="rabbit-edit" >
         <Header title="Edit"/>
-        <h1>Rabbit edit</h1>
-        <form>
-          <label>
-            Name:
-            <input
-              type="text"
-              title="name"
-              placeholder="Rabbit name"
-              name="name"
-              value={ name }
-              onChange={ this.inputHandler }/>
-          </label>
-          <label>
-            Weight:
-            <input
-              type="number"
-              title="weight"
-              placeholder="Rabbit weight"
-              name="weight"
-              value={ weight }
-              onChange={ this.inputHandler }/>
-          </label>
-          <button type="button" onClick={this.edit} disabled={ isLoading }>Edit</button>
-          <button type="button" onClick={this.cancel}>Cancel</button>
-        </form>
+        <div className="container">
+          <form className="edit-form">
+            <label>
+              Name:
+              <input
+                type="text"
+                title="name"
+                placeholder="Rabbit name"
+                className="edit-form__input"
+                name="name"
+                value={ name }
+                onChange={ this.inputHandler }/>
+            </label>
+            <label>
+              Weight:
+              <input
+                type="number"
+                title="weight"
+                placeholder="Rabbit weight"
+                className="edit-form__input"
+                name="weight"
+                value={ weight }
+                onChange={ this.inputHandler }/>
+            </label>
+            <div className="edit-form__buttons">
+              <button type="button" className="w3-button w3-teal edit-form__btn" onClick={this.edit} disabled={ isLoading }>Edit</button>
+              <button type="button" className="w3-button w3-yellow edit-form__btn" onClick={this.cancel}>Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

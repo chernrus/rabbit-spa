@@ -76,20 +76,21 @@ class RabbitList extends Component {
     return (
       <div className="rabbit-list">
         <Header title="Rabbits"/>
-        <h2>Rabbit list</h2>
-        <CreateButton />
-        <table className="w3-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Rabbit name</th>
-              <th>Weight</th>
-            </tr>
-          </thead>
-          <tbody>
-            { rabbitTable }
-          </tbody>
-        </table>
+        <div className="container">
+          <CreateButton />
+          <table className="w3-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Rabbit name</th>
+                <th>Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              { rabbitTable }
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

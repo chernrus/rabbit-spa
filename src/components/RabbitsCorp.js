@@ -2,22 +2,20 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import ApiService from '../modules/ApiService';
+import RabbitCreate from '../components/RabbitCreate';
+import RabbitEdit from '../components/RabbitEdit';
 import AuthorizedRoute from './AuthorizedRoute';
 import Navigation from './Navigation';
-import RabbitCreate from './RabbitCreate';
-import RabbitEdit from './RabbitEdit';
 import RabbitList from './RabbitList';
 
 class RabbitsCorp extends Component {
 
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.logoutHandle = this.logoutHandle.bind(this);
   }
 
   logoutHandle() {
-    console.log(this);
     ApiService.logout();
     this.props.history.push('/login');
   }
@@ -30,6 +28,7 @@ class RabbitsCorp extends Component {
     }
 
     const username = ApiService.getUsername();
+
     return (
       <div className="rabbits-corp">
         <div className="navigation w3-sidebar w3-light-grey w3-bar-block" style={{width:'200px'}}>
@@ -40,8 +39,6 @@ class RabbitsCorp extends Component {
             className="w3-bar-item w3-button">Create rabbit</NavLink>
           <NavLink to="/list"
             className="w3-bar-item w3-button">Rabbits list</NavLink>
-          <NavLink to="/edit/1"
-            className="w3-bar-item w3-button">Rabbits edit</NavLink>
           <button
             className="w3-bar-item w3-button"
             onClick={this.logoutHandle}>Logout</button>
@@ -51,8 +48,7 @@ class RabbitsCorp extends Component {
             <Route path="/create" component={RabbitCreate} />
             <Route path="/list" component={RabbitList} />
             <Route path="/edit/:id" component={RabbitEdit} />
-            <Route path="/aaa/:id" component={RabbitEdit} />
-            <Route render={ () => <h1>404 Error</h1> } />
+            <Route render={ () => <div className="container w3-display-middle"><h1>404 Error: page not found</h1></div> } />
           </Switch>
         </div>
       </div>
@@ -61,5 +57,3 @@ class RabbitsCorp extends Component {
 };
 
 export default RabbitsCorp;
-
-// <Navigation setTitle={this.setTitle}/>

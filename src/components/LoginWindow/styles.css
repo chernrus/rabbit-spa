@@ -1,0 +1,37 @@
+.login-window {
+
+
+}
+
+.login-windo__header {
+  margin: 0;
+  padding: 10px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.login-form__input {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
+  border-bottom: 1px solid #000;
+}
+
+.login-form__input:active,
+.login-form__input:hover,
+.login-form__input:focus {
+  border: none;
+  outline-style:none;
+  border-bottom: 1px solid #008080;
+}
+
+.login-form__button {
+
+}

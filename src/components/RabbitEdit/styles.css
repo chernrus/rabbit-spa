@@ -1,0 +1,40 @@
+.rabbit-edit {
+
+
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 400px;
+}
+
+.edit-form__input {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+  border-bottom: 1px solid #000;
+}
+
+.edit-form__input:active,
+.edit-form__input:hover,
+.edit-form__input:focus {
+  border: none;
+  outline-style: none;
+  border-bottom: 1px solid #008080;
+}
+
+.edit-form__buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.edit-form__btn {
+  width: 150px;
+}

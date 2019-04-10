@@ -5,7 +5,7 @@ class Header extends Component {
     const { title } = this.props;
 
     return (
-      <div className="main-header w3-container w3-teal">
+      <div className="main-header w3-container w3-light-grey">
         <h1>{ title }</h1>
       </div>
     );
