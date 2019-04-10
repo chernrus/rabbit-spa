@@ -29,10 +29,13 @@ class RabbitsCorp extends Component {
       return <Redirect to="/login"/>;
     }
 
+    const username = ApiService.getUsername();
     return (
       <div className="rabbits-corp">
         <div className="navigation w3-sidebar w3-light-grey w3-bar-block" style={{width:'200px'}}>
-          <h1>Menu</h1>
+          <div className="w3-container w3-teal">
+            <h1>{ username }</h1>
+          </div>
           <NavLink to="/create"
             className="w3-bar-item w3-button">Create rabbit</NavLink>
           <NavLink to="/list"

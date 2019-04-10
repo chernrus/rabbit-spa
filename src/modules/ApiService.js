@@ -98,7 +98,7 @@ const ApiService = (function(){
     }
   }
 
-  function _getToken() {
+  function _getTkn() {
     const tokenCookie = _getCookie(TOKEN_NAME);
 
     if(!tokenCookie) {
@@ -111,7 +111,7 @@ const ApiService = (function(){
 
   function _checkUser() {
 
-    const token = _getToken();
+    const token = _getTkn();
     let decoded = {};
 
     if(!token) {
@@ -296,16 +296,27 @@ const ApiService = (function(){
 
   };
 
+  function getUsername() {
+    const token = _getTkn();
+    let decoded = {};
+
+    if(!token) {
+      return null;
+    }
+
+    decoded = decodeJwt(token);
+
+    return decoded.username;
+  };
+
   function logout() {
     console.log('logout');
     return _deleteCookie(TOKEN_NAME);
-    AUTH = false;
   };
 
   function isLoggedIn() {
     console.log('check loggin');
     return _checkUser();
-    return AUTH;
   };
 
 
@@ -314,6 +325,7 @@ const ApiService = (function(){
     create,
     edit,
     remove,
+    getUsername,
     login,
     logout,
     isLoggedIn
