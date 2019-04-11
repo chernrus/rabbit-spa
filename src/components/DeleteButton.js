@@ -30,7 +30,7 @@ class DeleteButton extends Component {
 
   render() {
     const { isModal } = this.state;
-    console.log(isModal);
+
     return (
       <div>
         <button className="w3-button w3-red" onClick={this.showAlert}>Delete</button>

@@ -52,7 +52,6 @@ class RabbitList extends Component {
   }
 
   deleteRabbit(rabbit) {
-    console.log(rabbit);
     this.setState({ isLoading: true, deleted: rabbit.name });
     ApiService.remove(rabbit, this.onDeleteSuccess);
   }

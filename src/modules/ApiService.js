@@ -1,10 +1,8 @@
 import decodeJwt from 'jwt-decode';
 
 const ApiService = (function(){
-  const PROXY_URL = "https://crossorigin.me/",
-    URL = 'http://conquest.weekendads.ru',
+  const URL = 'http://conquest.weekendads.ru',
     TOKEN_NAME = 'Authorization';
-  let AUTH = false;
 
   function _errorHandler(error) {
     console.log(error);
@@ -40,7 +38,7 @@ const ApiService = (function(){
         updatedCookie += "=" + propValue;
       }
     }
-    console.log(updatedCookie);
+
     document.cookie = updatedCookie;
   }
 
@@ -111,7 +109,6 @@ const ApiService = (function(){
   };
 
   function getList(callback) {
-    console.log('list');
     if(!_checkUser()) {
       return _deleteCookie(TOKEN_NAME);
     }
@@ -121,8 +118,7 @@ const ApiService = (function(){
       headers = {
         'Authorization': _getCookie(TOKEN_NAME)
       };
-    console.log(_getCookie(TOKEN_NAME));
-    console.log(url, { method, headers });
+
     _apiFetch(url, { method, headers })
       .then(
         response => {
@@ -135,12 +131,11 @@ const ApiService = (function(){
         },
         error => {throw error.statusText}
       )
-      .then(response => { console.log(response); callback(response);})
+      .then(response => callback(response))
       .catch(error => _errorHandler(error));
   };
 
   function create({ name, weight }, callback) {
-    console.log('create');
     if(!_checkUser()) {
       return _deleteCookie(TOKEN_NAME);
     }
@@ -153,12 +148,9 @@ const ApiService = (function(){
       },
       body =  `rabbit[name]=${name}&rabbit[weight]=${weight}`;
 
-    console.log(_getCookie(TOKEN_NAME));
-    console.log(url, { method, headers, body });
     _apiFetch(url, { method, headers, body })
       .then(
         response => {
-          console.log(response);
           if(response.status == 200 || response.status == 201) {
             return response;
           }
@@ -173,7 +165,6 @@ const ApiService = (function(){
   };
 
   function edit({ id, name, weight}, callback) {
-    console.log('edit');
     if(!_checkUser()) {
       return _deleteCookie(TOKEN_NAME);
     }
@@ -186,18 +177,15 @@ const ApiService = (function(){
       },
       body =  `rabbit[name]=${name}&rabbit[weight]=${weight}`;
 
-    console.log(_getCookie(TOKEN_NAME));
-    console.log(url, { method, headers, body });
     _apiFetch(url, { method, headers, body })
       .then(
         response => {
-          console.log(response);
           if(response.status == 200 || response.status == 201) {
             return response;
           }
-          // else {
-          //   throw { status: response.status, statusText: response.statusText };
-          // }
+          else {
+            throw { status: response.status, statusText: response.statusText };
+          }
         },
         error => {throw error}
       )
@@ -206,7 +194,6 @@ const ApiService = (function(){
   };
 
   function remove({ id, name, weight}, callback) {
-    console.log('remove');
     if(!_checkUser()) {
       return _deleteCookie(TOKEN_NAME);
     }
@@ -219,12 +206,9 @@ const ApiService = (function(){
       },
       body =  `rabbit[name]=${name}&rabbit[weight]=${weight}`;
 
-    console.log(_getCookie(TOKEN_NAME));
-    console.log(url, { method, headers, body });
     _apiFetch(url, { method, headers, body })
       .then(
         response => {
-          console.log(response);
           if(response.status == 200 || response.status == 201) {
             return response;
           }
@@ -239,7 +223,6 @@ const ApiService = (function(){
   };
 
   function login({ username, password }, callback) {
-    console.log('login');
     const url = `${URL}/login_check`,
       method = 'POST',
       headers = {
@@ -250,7 +233,6 @@ const ApiService = (function(){
     _apiFetch(url, { method, headers, body})
       .then(
         response => {
-          console.log(response);
           if(response.status == 200) {
             return response.json();
           }
@@ -280,12 +262,10 @@ const ApiService = (function(){
   };
 
   function logout() {
-    console.log('logout');
     return _deleteCookie(TOKEN_NAME);
   };
 
   function isLoggedIn() {
-    console.log('check loggin');
     return _checkUser();
   };
 
