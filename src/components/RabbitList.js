@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Header from './Header';
 import ApiService from '../modules/ApiService';
 import CreateButton from './CreateButton';
+import Spinner from './Spinner';
+import Alert from './Alert';
 import Rabbit from './Rabbit';
 
 
@@ -11,13 +13,16 @@ class RabbitList extends Component {
 
     this.state = {
       rabbits: [],
-      isLoading: false
+      isLoading: false,
+      isSuccess: null,
+      isError: null
     }
 
     this.getRabbits = this.getRabbits.bind(this);
     this.deleteRabbit = this.deleteRabbit.bind(this);
     this.onLoadSuccess = this.onLoadSuccess.bind(this);
     this.onDeleteSuccess = this.onDeleteSuccess.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   }
 
   componentDidMount() {
@@ -25,23 +30,31 @@ class RabbitList extends Component {
     this.getRabbits();
   }
 
-  onLoadSuccess(data) {
-    console.log(data);
-    this.setState({ rabbits: data, iLoading: false });
-    console.log(this.state.rabbits);
+  alertClose() {
+    this.setState({
+      isError: false,
+      isSuccess: false,
+    })
   }
 
-  onDeleteSuccess(params) {
-    console.log(params);
-    this.getRabbits();
+  onLoadSuccess(data) {
+    this.setState({ rabbits: data, isLoading: false });
   }
+
 
   getRabbits() {
     ApiService.getList(this.onLoadSuccess);
   }
 
-  deleteRabbit(id) {
-    ApiService.remove(id, this.onDeleteSuccess);
+  onDeleteSuccess(params) {
+    this.setState({ isSuccess: true });
+    this.getRabbits();
+  }
+
+  deleteRabbit(rabbit) {
+    console.log(rabbit);
+    this.setState({ isLoading: true, deleted: rabbit.name });
+    ApiService.remove(rabbit, this.onDeleteSuccess);
   }
 
   createRow(value, num) {
@@ -69,13 +82,22 @@ class RabbitList extends Component {
   render() {
     const {
         rabbits,
-        isLoading
+        isLoading,
+        isSuccess,
+        isError,
+        deleted
       } = this.state,
       rabbitTable = this.createTbody(rabbits);
+
+    if(isLoading) {
+      return <Spinner />;
+    }
 
     return (
       <div className="rabbit-list">
         <Header title="Rabbits"/>
+        {isSuccess && <Alert type="success" text={`Rabbit ${deleted} is remove from list!`} onClose={this.alertClose}/>}
+        {isError && <Alert type="error" text="Oops, something went wrong." onClose={this.alertClose}/>}
         <div className="container">
           <CreateButton />
           <table className="w3-table">

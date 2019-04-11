@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ApiService from '../../modules/ApiService';
 import Header from '../Header';
+import Alert from '../Alert';
+import Spinner from '../Spinner';
 import './styles.css';
 
 class RabbitEdit extends Component {
@@ -10,35 +12,37 @@ class RabbitEdit extends Component {
     this.state = {
       name: '',
       weight: '',
+      id: Number(props.match.params.id),
       isLoading: true,
-      id: Number(props.match.params.id)
+      isError: null,
+      isSuccess: null
     };
 
     this.inputHandler = this.inputHandler.bind(this);
     this.onLoadSuccess = this.onLoadSuccess.bind(this);
+    this.onEditSuccess = this.onEditSuccess.bind(this);
     this.findRabbitById = this.findRabbitById.bind(this);
     this.edit = this.edit.bind(this);
     this.cancel = this.cancel.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   };
 
   componentDidMount() {
-    console.log(this.props.location.state);
-    if(this.props.location.state) {
-      const { rabbit } = this.props.location.state
-      this.setState({
-        name: rabbit.name,
-        weight: rabbit.weight,
-        isLoading: false
-      });
-    }
-    else {
+    // if(this.props.location.state) {
+    //   const { rabbit } = this.props.location.state
+    //   this.setState({
+    //     name: rabbit.name,
+    //     weight: rabbit.weight,
+    //     isLoading: false
+    //   });
+    // }
+    // else {
       this.getRabbits();
-    }
+    // }
   }
 
   findRabbitById(rabbit) {
     const { id } = this.state;
-    console.log(rabbit, id);
     return rabbit.id === id;
   }
 
@@ -47,6 +51,7 @@ class RabbitEdit extends Component {
       { name,
         weight
       } = rabbit;
+
     this.setState({ name, weight, isLoading: false });
   }
 
@@ -65,17 +70,26 @@ class RabbitEdit extends Component {
   }
 
   onEditSuccess(params) {
-    console.log(params);
+    this.setState({isSuccess: true, isLoading: false});
+  }
+
+  alertClose() {
+    this.setState({
+      isError: false,
+      isSuccess: false,
+    })
   }
 
   edit() {
     const {
       id,
       name,
-      weight
+      weight,
     } = this.state;
 
     ApiService.edit({ id, name, weight }, this.onEditSuccess);
+
+    this.setState({ isLoading: true});
   }
 
   cancel() {
@@ -86,12 +100,20 @@ class RabbitEdit extends Component {
     const {
         name,
         weight,
-        isLoading
+        isLoading,
+        isSuccess,
+        isError
       } = this.state;
-      console.log(this.props);
+
+    if(isLoading) {
+      return <Spinner />;
+    }
+
     return (
       <div className="rabbit-edit" >
         <Header title="Edit"/>
+        {isSuccess && <Alert type="success" text={`Rabbit ${name} is edited`} onClose={this.alertClose}/>}
+        {isError && <Alert type="error" text="Oops, something went wrong." onClose={this.alertClose}/>}
         <div className="container">
           <form className="edit-form">
             <label>

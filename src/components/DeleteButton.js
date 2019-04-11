@@ -34,7 +34,7 @@ class DeleteButton extends Component {
     return (
       <div>
         <button className="w3-button w3-red" onClick={this.showAlert}>Delete</button>
-        { isModal && <AlertConfirm text="Are you sure you want to delete this note?" onConfirm={this.remove} onCancel={this.hideAlert}/>}
+        { isModal && <ConfirmAlert text="Are you sure you want to delete this note?" onConfirm={this.remove} onCancel={this.hideAlert}/>}
       </div>
     );
   }

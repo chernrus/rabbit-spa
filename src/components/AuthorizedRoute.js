@@ -5,7 +5,7 @@ import { Redirect, Route } from 'react-router-dom';
 const AuthorizedRoute = ({ component: Component, ...rest }) => {
 
   const isLoggedIn = ApiService.isLoggedIn();
-  console.log(isLoggedIn);
+  
   return (
     <Route
       {...rest}

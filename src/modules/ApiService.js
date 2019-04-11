@@ -1,36 +1,5 @@
 import decodeJwt from 'jwt-decode';
 
-
-/*
-  POST:
-  http://conquest.weekendads.ru/login_check \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"<username>","password":"<password>"}'
-
-  http://conquest.weekendads.ru/rabbit \
-  -H 'Authorization: Bearer <token>' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'rabbit[name]=<name>&rabbit[weight]=<weight>'
-
-  curl -X POST \
-  http://conquest.weekendads.ru/rabbit/<rabbit.id> \
-  -H 'Authorization: Bearer <token>' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'rabbit[name]=<name>&rabbit[weight]=<weight>'
-
-  GET:
-  curl -X GET \
-    http://conquest.weekendads.ru/rabbit/list \
-    -H 'Authorization: Bearer <token>' \
-
-  DELETE:
-  curl -X DELETE \
-  http://conquest.weekendads.ru/rabbit/<rabbit.id> \
-  -H 'Authorization: Bearer <token>' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'rabbit[name]=<name>&rabbit[weight]=<weight>'
-
-*/
 const ApiService = (function(){
   const PROXY_URL = "https://crossorigin.me/",
     URL = 'http://conquest.weekendads.ru',
@@ -38,6 +7,7 @@ const ApiService = (function(){
   let AUTH = false;
 
   function _errorHandler(error) {
+    console.log(error);
     console.log('Error is:', error.status, error.statusText);
   };
 
@@ -225,11 +195,11 @@ const ApiService = (function(){
           if(response.status == 200 || response.status == 201) {
             return response;
           }
-          else {
-            throw { status: response.status, statusText: response.statusText };
-          }
+          // else {
+          //   throw { status: response.status, statusText: response.statusText };
+          // }
         },
-        error => {throw error.statusText}
+        error => {throw error}
       )
       .then(response => callback(response.statusText))
       .catch(error => _errorHandler(error));

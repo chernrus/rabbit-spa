@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ApiService from '../../modules/ApiService';
 import Header from '../Header';
+import Alert from '../Alert';
+import Spinner from '../Spinner';
 import './styles.css';
 
 class RabbitCreate extends Component {
@@ -10,19 +12,27 @@ class RabbitCreate extends Component {
     this.state = {
       name: '',
       weight: 0,
-      isLoading: false
+      isLoading: false,
+      isError: null,
+      isSuccess: null,
+      prevName: ''
     };
 
     this.inputHandler = this.inputHandler.bind(this);
     this.onCreateSuccess = this.onCreateSuccess.bind(this);
     this.create = this.create.bind(this);
     this.cancel = this.cancel.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   }
 
   inputHandler(event) {
     const target = event.target,
-      value = target.value,
       name = target.name;
+    let value = target.value;
+
+    if(name === 'weight' && value < 0) {
+      value = 0;
+    };
 
     this.setState({
       [name]: value
@@ -30,17 +40,19 @@ class RabbitCreate extends Component {
   }
 
   onCreateSuccess(params) {
-    this.setState({ isLoading: false });
-    console.log(params);
+    this.setState({
+      isLoading: false,
+      isSuccess: true,
+      prevName: this.state.name,
+      name: '',
+      weight: 0
+    });
   }
 
   create() {
     this.setState({ isLoading: true });
-    var formData = new FormData();
 
     const { name, weight } = this.state;
-    formData.append('name', name);
-    formData.append('weight', weight);
 
     ApiService.create({ name, weight }, this.onCreateSuccess);
   }
@@ -49,16 +61,32 @@ class RabbitCreate extends Component {
     this.props.history.push('/list');
   }
 
+  alertClose() {
+    this.setState({
+      isError: false,
+      isSuccess: false,
+    });
+  }
+
   render() {
     const {
       name,
       weight,
-      isLoading
+      isLoading,
+      isSuccess,
+      isError,
+      prevName
     } = this.state;
+
+    if(isLoading) {
+      return <Spinner />;
+    }
 
     return (
       <div className="rabbit-create">
         <Header title="Create"/>
+        {isSuccess && <Alert type="success" text={`Rabbit ${prevName} is created`} onClose={this.alertClose}/>}
+        {isError && <Alert type="error" text="Oops, something went wrong." onClose={this.alertClose}/>}
         <div className="container">
           <form className="create-form">
             <label>

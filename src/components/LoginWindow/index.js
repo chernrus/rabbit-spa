@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import ApiService from '../../modules/ApiService';
 import Header from '../Header';
 import './styles.css';
+import Spinner from '../Spinner';
 
 class LoginWindow extends Component {
 
@@ -43,10 +44,16 @@ class LoginWindow extends Component {
 
   render() {
     const isLoggedIn = ApiService.isLoggedIn(),
-      { username, password } = this.state;
+      { username,
+        password,
+       isLoading } = this.state;
 
     if(isLoggedIn) {
       return <Redirect to={{ pathname: '/list', state: { from: this.props.location } }} />;
+    }
+
+    if(isLoading) {
+      return <Spinner />;
     }
 
     return (
