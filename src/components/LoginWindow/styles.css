@@ -35,3 +35,7 @@
 .login-form__button {
 
 }
+
+.login-form__allert {
+  color: red;
+}

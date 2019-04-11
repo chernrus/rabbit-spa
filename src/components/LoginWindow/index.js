@@ -11,14 +11,18 @@ class LoginWindow extends Component {
     super(props);
 
     this.state = {
-      username: 'omar1',
-      password: 'lobster1',
-      isLoading: false
+      username: '',
+      password: '',
+      isLoading: false,
+      isError: null,
+      isSuccess: null,
+      errorText: ''
     }
 
     this.inputHandler = this.inputHandler.bind(this);
     this.logInUser = this.logInUser.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
+    this.onError = this.onError.bind(this);
   }
 
   inputHandler(event) {
@@ -27,7 +31,8 @@ class LoginWindow extends Component {
       name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
+      isError: false
     });
   }
 
@@ -35,18 +40,25 @@ class LoginWindow extends Component {
     this.setState({isLoading: false});
   }
 
+  onError({ errorText }) {
+    this.setState({isLoading: false, isError: true, errorText});
+  }
+
   logInUser() {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, isError: false});
 
     const { username, password } = this.state;
-    ApiService.login({ username, password }, this.onSuccess);
+    ApiService.login({ username, password }, this.onSuccess, this.onError);
   }
 
   render() {
     const isLoggedIn = ApiService.isLoggedIn(),
       { username,
         password,
-       isLoading } = this.state;
+        isLoading,
+        isError,
+        errorText
+      } = this.state;
 
     if(isLoggedIn) {
       return <Redirect to={{ pathname: '/list', state: { from: this.props.location } }} />;
@@ -59,7 +71,7 @@ class LoginWindow extends Component {
     return (
       <div className="login-window w3-display-middle w3-card">
         <h2 className="login-windo__header w3-teal">Login form</h2>
-        <form className="login-form">
+        <form className="login-form" onSubmit={this.logInUser}>
           <label>
             Username:
             <input
@@ -82,12 +94,11 @@ class LoginWindow extends Component {
               value={ password }
               onChange={ this.inputHandler }/>
           </label>
-          <button
-            type="button"
+          <div className="login-form__allert"><p>{ isError && errorText }</p></div>
+          <input
+            type="submit"
             className="login-form__button w3-button w3-teal"
-            onClick={this.logInUser}>
-              Login
-          </button>
+            value="Login"/>
         </form>
       </div>
     );

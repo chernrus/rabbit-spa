@@ -222,7 +222,7 @@ const ApiService = (function(){
       .catch(error => _errorHandler(error));
   };
 
-  function login({ username, password }, callback) {
+  function login({ username, password }, resolve, reject) {
     const url = `${URL}/login_check`,
       method = 'POST',
       headers = {
@@ -236,6 +236,9 @@ const ApiService = (function(){
           if(response.status == 200) {
             return response.json();
           }
+          if(response.status == 401) {
+            reject({errorText: 'Username/password are incorrect!'})
+          }
           else {
             throw { status: response.status, statusText: response.statusText };
           }
@@ -243,7 +246,7 @@ const ApiService = (function(){
         error => {throw error.statusText}
       )
       .then(response => _setTkn(response))
-      .then(username => callback({ status: 'OK', username }))
+      .then(username => resolve({ status: 'OK', username }))
       .catch(error => _errorHandler(error));
 
   };
