@@ -31,7 +31,6 @@ class LoginWindow extends Component {
   }
 
   onSuccess(params) {
-    console.log(params);
     this.setState({isLoading: false});
   }
 

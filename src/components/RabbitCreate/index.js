@@ -46,7 +46,7 @@ class RabbitCreate extends Component {
   }
 
   cancel() {
-    console.log('cancel');
+    this.props.history.push('/list');
   }
 
   render() {

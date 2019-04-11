@@ -43,16 +43,10 @@ class RabbitEdit extends Component {
   }
 
   onLoadSuccess(rabbitsList) {
-    console.log({data: rabbitsList});
-    // const { name, weight } = data;
-
-    const rabbit = rabbitsList.find(this.findRabbitById);
-    console.log(rabbit);
-
-    const {
-      name,
-      weight
-    } = rabbit;
+    const rabbit = rabbitsList.find(this.findRabbitById),
+      { name,
+        weight
+      } = rabbit;
     this.setState({ name, weight, isLoading: false });
   }
 
@@ -85,7 +79,7 @@ class RabbitEdit extends Component {
   }
 
   cancel() {
-
+    this.props.history.push('/list');
   }
 
   render() {

@@ -1,0 +1,27 @@
+.confirm-modal {
+  z-index: 3;
+  padding-top: 200px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.confirm-modal__content {
+  margin: auto;
+  background-color: #fff;
+  position: relative;
+  padding: 10px;
+  outline: 0;
+  width: 600px;
+}
+
+.confirm-modal__modal-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

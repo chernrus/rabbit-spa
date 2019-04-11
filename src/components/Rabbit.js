@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import DeleteButton from './DeleteButton';
 
 class Rabbit extends Component {
 
@@ -28,7 +29,7 @@ class Rabbit extends Component {
         </td>
         <td>{rabbit.weight}</td>
         <td>
-          <button className="w3-button" onClick={this.delete}>Delete</button>
+          <DeleteButton className="w3-button" onDelete={this.delete}/>
         </td>
       </tr>
     );
