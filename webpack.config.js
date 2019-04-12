@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const path = require('path');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname,'build'),
     filename: 'index.bundle.js',
-    publicPath: './'
+    publicPath: '/'
   },
   mode: process.env.NODE_ENV || 'development',
   resolve: {
@@ -14,7 +15,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname,'src'),
-    port: 8080,
+    port: 9000,
     hot: true,
     historyApiFallback: true
   },
@@ -32,8 +33,23 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
+        use: [
+          "style-loader",
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                autoprefixer({
+                    browsers:['ie >= 8', 'last 4 version']
+                })
+              ],
+              sourceMap: true
+            }
+          }
+        ]
+      },
+
     ]
   },
   plugins: [
@@ -42,28 +58,3 @@ module.exports = {
     })
   ]
 };
-
-// const HtmlWebPackPlugin = require("html-webpack-plugin");
-// const path = require('path');
-//
-// const htmlPlugin = new HtmlWebPackPlugin({
-//   template: "./src/index.html",
-//   filename: "./index.html"
-// });
-//
-// module.exports = {
-//   // module: {
-//   //   rules: [
-//   //     {
-//   //       test: /\.jsx?$/,
-//   //       exclude: /node_modules/,
-//   //       use: {
-//   //         loader: "babel-loader"
-//   //       }
-//   //     }
-//   //   ]
-//   // },
-//   plugins: [
-//     htmlPlugin
-//   ]
-// };
