@@ -6,7 +6,7 @@ const ApiService = (function(){
 
   function _errorHandler(error) {
     console.log(error);
-    console.log('Error is:', error.status, error.statusText);
+    console.log('Warning/error is:', error.status, error.statusText);
   };
 
   function _apiFetch(url, params) {
@@ -237,7 +237,8 @@ const ApiService = (function(){
             return response.json();
           }
           if(response.status == 401) {
-            reject({errorText: 'Username/password are incorrect!'})
+            reject({errorText: 'Username/password are incorrect!'});
+            throw { status: response.status, statusText: response.statusText };
           }
           else {
             throw { status: response.status, statusText: response.statusText };
@@ -271,7 +272,6 @@ const ApiService = (function(){
   function isLoggedIn() {
     return _checkUser();
   };
-
 
   return {
     getList,
