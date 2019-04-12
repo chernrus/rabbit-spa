@@ -20,6 +20,7 @@ class LoginWindow extends Component {
     }
 
     this.inputHandler = this.inputHandler.bind(this);
+    this.keyPressHandler = this.keyPressHandler .bind(this);
     this.logInUser = this.logInUser.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
@@ -34,6 +35,12 @@ class LoginWindow extends Component {
       [name]: value,
       isError: false
     });
+  }
+
+  keyPressHandler(event) {
+    if(event.key == 'Enter'){
+      this.logInUser();
+    }
   }
 
   onSuccess(params) {
@@ -71,13 +78,12 @@ class LoginWindow extends Component {
     return (
       <div className="login-window w3-display-middle w3-card">
         <h2 className="login-windo__header w3-teal">Login form</h2>
-        <form className="login-form" onSubmit={this.logInUser}>
+        <form className="login-form" onKeyPress={this.keyPressHandler}>
           <label>
             Username:
             <input
               type="text"
               title="username"
-              placeholder="Username"
               className="login-form__input"
               name="username"
               value={ username }
@@ -88,7 +94,6 @@ class LoginWindow extends Component {
             <input
               type="password"
               title="password"
-              placeholder="Password"
               className="login-form__input"
               name="password"
               value={ password }
@@ -96,8 +101,9 @@ class LoginWindow extends Component {
           </label>
           <div className="login-form__allert"><p>{ isError && errorText }</p></div>
           <input
-            type="submit"
+            type="button"
             className="login-form__button w3-button w3-teal"
+            onClick={this.logInUser}
             value="Login"/>
         </form>
       </div>
