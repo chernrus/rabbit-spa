@@ -5,8 +5,17 @@ const ApiService = (function(){
     TOKEN_NAME = 'Authorization';
 
   function _errorHandler(error) {
+    var errorArray = [error];
     console.log(error);
-    console.log('Warning/error is:', error.status, error.statusText);
+    if(error.status) {
+      errorArray.push(error.status);
+    }
+
+    if(error.statusText) {
+      errorArray.push(error.statusText);
+    }
+
+    console.log('Warning/error is:', ...errorArray);
   };
 
   function _apiFetch(url, params) {
@@ -233,6 +242,7 @@ const ApiService = (function(){
     _apiFetch(url, { method, headers, body})
       .then(
         response => {
+          console.log(response);
           if(response.status == 200) {
             return response.json();
           }
@@ -241,10 +251,14 @@ const ApiService = (function(){
             throw { status: response.status, statusText: response.statusText };
           }
           else {
+            reject({errorText: 'Server status undefined'});
             throw { status: response.status, statusText: response.statusText };
           }
         },
-        error => {throw error.statusText}
+        error => {
+          reject({errorText: 'Server status undefined'});
+          throw error;
+        }
       )
       .then(response => _setTkn(response))
       .then(username => resolve({ status: 'OK', username }))
